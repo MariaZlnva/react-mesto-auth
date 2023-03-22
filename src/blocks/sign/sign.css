@@ -1,0 +1,151 @@
+.sign {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.page__sign {
+  margin: 0 200px;
+  padding: 60px 0 80px;
+}
+
+@media screen and (max-width: 980px) {
+  .page__sign {
+    margin: 0 100px;
+  }
+}
+@media screen and (max-width: 670px) {
+  .page__sign {
+    margin: 0 ;
+    padding: 40px 0 77px;
+  }
+}
+
+.sign__content {
+  display: flex;
+  flex-direction: column;
+  width: 358px;
+  margin: 0 auto;
+  padding: 0px 0px 37px;
+}
+
+@media screen and (max-width: 770px) {
+  .sign__content {
+    width: 260px;
+  }
+}
+.sign__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sign__title {
+  padding: 0;
+  margin: 0 0 50px;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.21;
+  text-align: center;
+}
+
+@media screen and (max-width: 670px) {
+  .sign__title {
+    font-size: 20px;
+    margin-bottom: 40px;
+    
+  }
+}
+
+.sign__input {
+  background: transparent;
+  color: white;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.21;
+  padding-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.sign__input:focus {
+  outline: none;
+}
+
+.sign__bntSubmit {
+  background-color: #ffffff;
+  color: black;
+  min-height: 50px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.2;
+  padding: 0;
+  margin: 186px 0 15px;
+}
+@media screen and (max-width: 670px) {
+  .sign__bntSubmit {
+    font-size: 16px;
+    margin: 143px 0 20px;
+    min-height: 46px;
+    
+  }
+}
+.sign__btnLink {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21px;
+  min-height: 17px;
+}
+
+/* 
+@media screen and (max-width: 770px) {
+  .popup__content {
+    padding: 25px 22px 25px 22px;
+    max-width: 282px;
+  }
+} */
+
+.popup__infoTool{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+    align-items: center;
+    
+}
+
+.popup__img {
+  width: 120px;
+  height: 120px;
+  margin: 26px 0 32px;
+}
+@media screen and (max-width: 670px) {
+  .popup__img {
+    margin: 26px 0 40px;
+    
+  }
+}
+
+.popup__titleInfoTool {
+  margin: 0;
+  padding: 0 0 26px;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.21;
+  text-align: center;
+}
+
+@media screen and (max-width: 670px) {
+  .popup__titleInfoTool {
+    font-size: 20px;
+    
+  }
+}

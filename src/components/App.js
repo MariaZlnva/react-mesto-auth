@@ -1,8 +1,11 @@
 import React from "react";
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
+import Register from "./Register";
+import Login from "./Login";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/api";
@@ -10,6 +13,9 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import InfoTooltip from "./InfoTooltip";
+import success from '../images/success.svg';
+import fail from '../images/fail.svg';
 
 function App() {
   const body = document.getElementsByTagName("body")[0];
@@ -19,11 +25,9 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   //переменные состояния, отвечающие за видимость трёх попапов:
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
   useEffect(() => {
     api
@@ -112,15 +116,26 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div>
         <Header />
-        <Main
-          cards={cards}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
+        <Routes>
+          // для регистрации пользователя
+          <Route path="/sign-up" element={<Register />}/>
+          // для авторизации пользователя
+          <Route path="/sign-in"element={<Login />}/>
+          <Route
+            path="/"
+            element={
+              <Main
+                cards={cards}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+              />
+            }
+          />
+        </Routes>
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -137,7 +152,10 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-
+        
+        <InfoTooltip  src={success} alt="Удачно!" title="Вы успешно зарегистрировались!"/>
+        <InfoTooltip isOpen="true" src={fail} alt="Ошибка" title="Что-то пошло не так! Попробуйте ещё раз."/>
+        
         <PopupWithForm title="Вы уверены?" name="delete-card" titleBtn="Да" />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />

@@ -53,3 +53,5 @@
 @import url(./blocks/popup/_big-picture/popup_big-picture.css);
 @import url(./blocks/error/error.css);
 @import url(./blocks/popup/__error_visible/popup__error_visible.css);
+
+@import url(./blocks/sign/sign.css);
