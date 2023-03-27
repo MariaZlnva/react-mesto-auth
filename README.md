@@ -31,4 +31,4 @@
  
  **GitHub Pages**
 
-* [Ссылка на GitHub Pages](https://mariazlnva.github.io/mesto-react/)
+* [Ссылка на GitHub Pages](https://mariazlnva.github.io/react-mesto-auth/)
