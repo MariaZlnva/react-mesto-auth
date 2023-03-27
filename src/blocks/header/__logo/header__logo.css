@@ -9,9 +9,10 @@
   background-repeat: no-repeat;
 }
 
-@media screen and (max-width: 670px) {
+@media screen and (max-width: 770px) {
   .header__logo {
     margin-bottom: 31px;
+    /* margin-top: 27px; */
     height: 24px;
     width: 104px;
   }

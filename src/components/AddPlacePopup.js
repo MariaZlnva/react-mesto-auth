@@ -40,11 +40,9 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         type="text"
         name="cardName"
         value={values.name}
-        //  value={nameCard}
         minLength="2"
         maxLength="30"
         required
-        // onChange={handleInputNameClick}
         onChange={onChange}
       />
       <span id="nameCard-error" className="error"></span>
@@ -55,9 +53,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         type="url"
         name="cardUrl"
         value={values.url}
-        // value={urlCard}
         required
-        // onChange={handleInputUrlClick}
         onChange={onChange}
       />
       <span id="urlCard-error" className="error"></span>

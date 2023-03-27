@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
@@ -8,14 +8,14 @@ import Register from "./Register";
 import Login from "./Login";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import ProtectedRoute from "./ProtectedRoute";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import InfoTooltip from "./InfoTooltip";
-import success from '../images/success.svg';
-import fail from '../images/fail.svg';
+import * as auth from "../utils/auth";
 
 function App() {
   const body = document.getElementsByTagName("body")[0];
@@ -24,20 +24,95 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  //переменные состояния, отвечающие за видимость трёх попапов:
+  //переменные состояния, отвечающие за видимость попапов:
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
+  //стейт перем., отвечающая за состояние авторизации
+  const [isloggedIn, setIsloggedIn] = useState(false);
+  const [isSuccess, setisSuccess] = useState(true);
+  const [emailUser, setEmailUser] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    api
-      .getInitialData()
-      .then(([dataUser, cardsServer]) => {
-        setCurrentUser(dataUser);
-        setCards(cardsServer);
-      })
-      .catch((err) => console.log("Error getInitialData!"));
+    checkToken();
   }, []);
+
+  useEffect(() => {
+    if (isloggedIn) {
+      api
+        .getInitialData()
+        .then(([dataUser, cardsServer]) => {
+          setCurrentUser(dataUser);
+          setCards(cardsServer);
+        })
+        .catch((err) => console.log("Error getInitialData!"));
+    }
+  }, [isloggedIn]);
+
+  function checkToken() {
+    let token = localStorage.getItem("token");
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          if (res) {
+            setEmailUser(res.data.email);
+            setIsloggedIn(true);
+            navigate("/", { replace: true });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
+  function handleSubmitLogin({ email, password }) {
+    if (!email || !password) {
+      return;
+    }
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          setisSuccess(true);
+          setIsloggedIn(true);
+          setEmailUser(email);
+          navigate("/", { replace: true });
+        } else {
+          return;
+        }
+      })
+      .catch((err) => {
+        setisSuccess(false);
+        setIsInfoToolTipOpen(true);
+        console.log(err);
+      });
+  }
+
+  function handleSubmitRegister({ email, password }) {
+    auth
+      .register(email, password)
+      .then((res) => {
+        setisSuccess(true);
+        setIsInfoToolTipOpen(true);
+        navigate("/sign-in", { replace: true });
+      })
+      .catch(() => {
+        setisSuccess(false);
+        setIsInfoToolTipOpen(true);
+      });
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    setEmailUser("");
+    setIsloggedIn(false);
+    setisSuccess(false);
+    navigate("/sign-in", { replace: true });
+  }
 
   function handleUpdateUser(dataInput) {
     api
@@ -89,6 +164,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
+    setIsInfoToolTipOpen(false);
   }
 
   function handleCardLike(card) {
@@ -114,17 +190,15 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div>
-        <Header />
+      <>
+        <Header emailUser={emailUser} onLogout={handleLogout} />
         <Routes>
-          // для регистрации пользователя
-          <Route path="/sign-up" element={<Register />}/>
-          // для авторизации пользователя
-          <Route path="/sign-in"element={<Login />}/>
           <Route
             path="/"
             element={
-              <Main
+              <ProtectedRoute
+                element={Main}
+                isloggedIn={isloggedIn}
                 cards={cards}
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -135,8 +209,22 @@ function App() {
               />
             }
           />
+          // для регистрации пользователя
+          <Route
+            path="/sign-up"
+            element={
+              <Register isSuccess={isSuccess} onSubmit={handleSubmitRegister} />
+            }
+          />
+          // для авторизации пользователя
+          <Route
+            path="/sign-in"
+            element={<Login onSubmit={handleSubmitLogin} />}
+          />
         </Routes>
+
         <Footer />
+
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -152,14 +240,16 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        
-        <InfoTooltip  src={success} alt="Удачно!" title="Вы успешно зарегистрировались!"/>
-        <InfoTooltip isOpen="true" src={fail} alt="Ошибка" title="Что-то пошло не так! Попробуйте ещё раз."/>
-        
+        <InfoTooltip
+          isOpen={isInfoToolTipOpen}
+          onClose={closeAllPopups}
+          isSuccess={isSuccess}
+        />
+
         <PopupWithForm title="Вы уверены?" name="delete-card" titleBtn="Да" />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-      </div>
+      </>
     </CurrentUserContext.Provider>
   );
 }

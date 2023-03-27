@@ -1,6 +1,8 @@
 import React from "react";
+import success from '../images/success.svg';
+import fail from '../images/fail.svg';
 
-function InfoTooltip({src, alt, title, isOpen}) {
+function InfoTooltip({isOpen, isSuccess, onClose}) {
   return (
     <div className={`popup popup_infoTooltip ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__content">
@@ -8,11 +10,14 @@ function InfoTooltip({src, alt, title, isOpen}) {
           aria-label="Закрыть"
           className="popup__close"
           type="button"
-          // onClick={onClose}
+          onClick={onClose}
         ></button>
         <div className="popup__infoTool">
-          <img className="popup__img" src={src} alt={alt}/>
-          <h2 className="popup__titleInfoTool">{title}</h2>
+          {<img 
+            className="popup__img" 
+            src={isSuccess ? success : fail} 
+            alt={isSuccess ? "Удачно!" : "Ошибка"}/>}
+          <h2 className="popup__titleInfoTool">{isSuccess ? "Вы успешно зарегистрировались!" : "Что-то пошло не так! Попробуйте ещё раз."}</h2>
         </div>
       </div>
     </div>
@@ -20,3 +25,4 @@ function InfoTooltip({src, alt, title, isOpen}) {
 }
 
 export default InfoTooltip;
+

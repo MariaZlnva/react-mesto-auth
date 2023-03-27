@@ -1,7 +1,6 @@
 import React from "react";
 import plus from "../images/plus.svg";
 import pen from "../images/pen.svg";
-
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -19,6 +18,7 @@ function Main({
   const currentUser = React.useContext(CurrentUserContext);
 
   return (
+  
     <main className="content page__content">
       <section className="profile content__profile">
         <div className="profile__info">
@@ -59,6 +59,7 @@ function Main({
         ))}
       </section>
     </main>
+  
   );
 }
 

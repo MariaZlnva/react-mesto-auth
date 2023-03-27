@@ -1,9 +1,9 @@
 import React from "react";
-import SignForm from "./SignForm";
+import AuthForm from "./AuthForm";
 
-function Register() {
+function Register({isSuccess, onSubmit}) {
   return (
-    <SignForm title="Регистрация" titleBtn="Зарегистрироваться" isJwt = "true"/> 
+    <AuthForm title="Регистрация" titleBtn="Зарегистрироваться" isSuccess = {isSuccess} onSubmit={onSubmit}/> 
   );
 }
 
