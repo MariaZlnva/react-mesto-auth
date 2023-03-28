@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function AuthForm({ title, titleBtn, isSuccess, onSubmit }) {
+function AuthForm({ title, titleBtn, isShow, onSubmit }) {
   // const [emailInput, setEmailInput] = useState("");
   // const [passwordInput, setPasswordInput] =useState("");
   const [values, setValues] = useState({});
@@ -49,11 +49,13 @@ function AuthForm({ title, titleBtn, isSuccess, onSubmit }) {
             {titleBtn}
           </button>
         </form>
-        {isSuccess && (
+
+        {isShow && (
           <Link to="/sign-in" className="sign__link" type="button">
             Уже зарегистрированы? Войти
           </Link>
         )}
+
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ function Main({
   onCardClick,
   onCardLike,
   onCardDelete,
-  isLoading,
+  
 }) {
   //подписываемся на контекст
   const currentUser = React.useContext(CurrentUserContext);

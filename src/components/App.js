@@ -17,9 +17,20 @@ import AddPlacePopup from "./AddPlacePopup";
 import InfoTooltip from "./InfoTooltip";
 import * as auth from "../utils/auth";
 
+import success from "../images/success.svg";
+import fail from "../images/fail.svg";
+
 function App() {
-  const body = document.getElementsByTagName("body")[0];
-  body.classList = "page";
+  const confirm = {
+    text: "Вы успешно зарегистрировались!",
+    src: success,
+    alt: "Выполнено",
+  };
+  const notConfirm = {
+    text: "Что-то пошло не так! Попробуйте ещё раз.",
+    src: fail,
+    alt: "Ошибка",
+  };
 
   const [currentUser, setCurrentUser] = useState({});
   const [selectedCard, setSelectedCard] = useState(null);
@@ -31,8 +42,9 @@ function App() {
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
   //стейт перем., отвечающая за состояние авторизации
   const [isloggedIn, setIsloggedIn] = useState(false);
-  const [isSuccess, setisSuccess] = useState(true);
+  const [isShow, setIsShow] = useState(true);
   const [emailUser, setEmailUser] = useState("");
+  const [isDataInfoToolTip, setIsDataInfoToolTip] = useState(confirm);
 
   const navigate = useNavigate();
 
@@ -53,7 +65,7 @@ function App() {
   }, [isloggedIn]);
 
   function checkToken() {
-    let token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
       auth
         .getContent(token)
@@ -77,7 +89,7 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
-          setisSuccess(true);
+          setIsDataInfoToolTip(confirm);
           setIsloggedIn(true);
           setEmailUser(email);
           navigate("/", { replace: true });
@@ -86,7 +98,7 @@ function App() {
         }
       })
       .catch((err) => {
-        setisSuccess(false);
+        setIsDataInfoToolTip(notConfirm);
         setIsInfoToolTipOpen(true);
         console.log(err);
       });
@@ -96,12 +108,12 @@ function App() {
     auth
       .register(email, password)
       .then((res) => {
-        setisSuccess(true);
+        setIsDataInfoToolTip(confirm);
         setIsInfoToolTipOpen(true);
         navigate("/sign-in", { replace: true });
       })
       .catch(() => {
-        setisSuccess(false);
+        setIsDataInfoToolTip(notConfirm);
         setIsInfoToolTipOpen(true);
       });
   }
@@ -110,7 +122,7 @@ function App() {
     localStorage.removeItem("token");
     setEmailUser("");
     setIsloggedIn(false);
-    setisSuccess(false);
+    setIsShow(true);
     navigate("/sign-in", { replace: true });
   }
 
@@ -165,6 +177,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
     setIsInfoToolTipOpen(false);
+    // setIsShow(false);
   }
 
   function handleCardLike(card) {
@@ -213,7 +226,7 @@ function App() {
           <Route
             path="/sign-up"
             element={
-              <Register isSuccess={isSuccess} onSubmit={handleSubmitRegister} />
+              <Register isShow={isShow} onSubmit={handleSubmitRegister} />
             }
           />
           // для авторизации пользователя
@@ -243,7 +256,8 @@ function App() {
         <InfoTooltip
           isOpen={isInfoToolTipOpen}
           onClose={closeAllPopups}
-          isSuccess={isSuccess}
+          isShow={isShow}
+          dataInfo={isDataInfoToolTip}
         />
 
         <PopupWithForm title="Вы уверены?" name="delete-card" titleBtn="Да" />

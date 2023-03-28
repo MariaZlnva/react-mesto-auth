@@ -1,9 +1,9 @@
 import React from "react";
 import AuthForm from "./AuthForm";
 
-function Register({isSuccess, onSubmit}) {
+function Register({isShow, onSubmit}) {
   return (
-    <AuthForm title="Регистрация" titleBtn="Зарегистрироваться" isSuccess = {isSuccess} onSubmit={onSubmit}/> 
+    <AuthForm title="Регистрация" titleBtn="Зарегистрироваться" isShow = {isShow} onSubmit={onSubmit}/> 
   );
 }
 
