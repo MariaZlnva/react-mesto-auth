@@ -2,21 +2,6 @@ import React, { useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 
 function Header({ emailUser, onLogout, onOpenBurger, isBurgerOpen }) {
-  // const [isBurgerOpen, setIiBurgerOpen] = useState(false);
-
-  // const handlerClickBurger = () => {
-  //   setIiBurgerOpen(!isBurgerOpen);
-  // };
-
-  //  меняет стейт перемен. при увелич. ширины экрана
-  // function handleResize() {
-  //   const windowInnerWidth = window.innerWidth;
-  //   if (windowInnerWidth > 570) {
-  //     setIiBurgerOpen(false);
-  //   }
-  // }
-  // window.addEventListener("resize", handleResize);
-
   return (
     <header
       className={
