@@ -12,6 +12,12 @@
 @import url(./blocks/header/__authorise/header__authorise.css);
 @import url(./blocks/header/__email/header__email.css);
 @import url(./blocks/header/__btnNav/header__btnNav.css);
+@import url(./blocks/header/__activeBurger/header__activeBurger.css);
+@import url(./blocks/header/__logout/header__logout.css);
+@import url(./blocks/header/__burger/header__burger.css);
+@import url(./blocks/header/__burgerLine/header__burgerLine.css);
+@import url(./blocks/header/__burger/_active/header__burger_active.css);
+@import url(./blocks/header/__authorise/_activeBurger/header__authorise_activeBurger.css);
 
 @import url(./blocks/content/content.css);
 @import url(./blocks/content/__profile/content__profile.css);
@@ -68,3 +74,6 @@
 @import url(./blocks/sign/__input/sign__input.css);
 @import url(./blocks/sign/__button/sign__button.css);
 @import url(./blocks/sign/__link/sign__link.css);
+
+
+  /* border: red 1px solid; */

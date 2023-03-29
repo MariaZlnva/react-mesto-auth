@@ -45,6 +45,7 @@ function App() {
   const [isShow, setIsShow] = useState(true);
   const [emailUser, setEmailUser] = useState("");
   const [isDataInfoToolTip, setIsDataInfoToolTip] = useState(confirm);
+  const [isBurgerOpen, setIiBurgerOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -123,6 +124,7 @@ function App() {
     setEmailUser("");
     setIsloggedIn(false);
     setIsShow(true);
+    setIiBurgerOpen(false);
     navigate("/sign-in", { replace: true });
   }
 
@@ -156,6 +158,19 @@ function App() {
       })
       .catch((err) => console.log("Error add card!"));
   }
+
+  //  меняет стейт перемен. при увелич. ширины экрана
+  function handleResize() {
+    const windowInnerWidth = window.innerWidth;
+    if (windowInnerWidth > 570) {
+      setIiBurgerOpen(false);
+    }
+  }
+  window.addEventListener("resize", handleResize);
+
+  const handlerClickBurger = () => {
+    setIiBurgerOpen(!isBurgerOpen);
+  };
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -204,7 +219,12 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
-        <Header emailUser={emailUser} onLogout={handleLogout} />
+        <Header
+          emailUser={emailUser}
+          onLogout={handleLogout}
+          isBurgerOpen={isBurgerOpen}
+          onOpenBurger={handlerClickBurger}
+        />
         <Routes>
           <Route
             path="/"

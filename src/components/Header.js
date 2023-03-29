@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 
-function Header({ emailUser, onLogout }) {
+function Header({ emailUser, onLogout, onOpenBurger, isBurgerOpen }) {
+  // const [isBurgerOpen, setIiBurgerOpen] = useState(false);
+
+  // const handlerClickBurger = () => {
+  //   setIiBurgerOpen(!isBurgerOpen);
+  // };
+
+  //  меняет стейт перемен. при увелич. ширины экрана
+  // function handleResize() {
+  //   const windowInnerWidth = window.innerWidth;
+  //   if (windowInnerWidth > 570) {
+  //     setIiBurgerOpen(false);
+  //   }
+  // }
+  // window.addEventListener("resize", handleResize);
+
   return (
-    <header className="header page__header">
+    <header
+      className={
+        isBurgerOpen
+          ? "header page__header header__activeBurger"
+          : "header page__header"
+      }
+    >
       <Link to="/" className="header__logo"></Link>
       <Routes>
         <Route
@@ -25,16 +46,48 @@ function Header({ emailUser, onLogout }) {
         <Route
           path="/"
           element={
-            <div className="header__authorise">
-              <p className="header__email">{emailUser}</p>
-              <button
-                type="button"
-                className="header__btnNav"
-                onClick={onLogout}
+            <>
+              <div
+                className={
+                  isBurgerOpen
+                    ? "header__authorise_activeBurger"
+                    : "header__authorise"
+                }
               >
-                Выйти
+                <p className="header__email">{emailUser}</p>
+                <button
+                  type="button"
+                  className="header__logout"
+                  onClick={onLogout}
+                >
+                  Выйти
+                </button>
+              </div>
+              {/* кнопка бургер-меню */}
+              <button className="header__burger" onClick={onOpenBurger}>
+                <span
+                  className={
+                    isBurgerOpen
+                      ? "header__burgerLine header__burger_active"
+                      : "header__burgerLine"
+                  }
+                ></span>
+                <span
+                  className={
+                    isBurgerOpen
+                      ? "header__burgerLine header__burger_active"
+                      : "header__burgerLine"
+                  }
+                ></span>
+                <span
+                  className={
+                    isBurgerOpen
+                      ? "header__burgerLine header__burger_active"
+                      : "header__burgerLine"
+                  }
+                ></span>
               </button>
-            </div>
+            </>
           }
         />
       </Routes>
@@ -43,11 +96,3 @@ function Header({ emailUser, onLogout }) {
 }
 
 export default Header;
-
-{
-  /* <button className={isActiveBurger ? " header__burger_active header__burger" : "header__burger"} onClick={openPopupBurger}>
-            <span className="header__burger-line"></span>
-            <span className="header__burger-line"></span>
-            <span className="header__burger-line"></span>
-          </button> */
-}
