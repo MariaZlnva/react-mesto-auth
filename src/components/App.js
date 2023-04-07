@@ -192,7 +192,6 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setSelectedCard(null);
     setIsInfoToolTipOpen(false);
-    // setIsShow(false);
   }
 
   function handleCardLike(card) {
@@ -256,7 +255,7 @@ function App() {
           />
         </Routes>
 
-        <Footer />
+        <Footer isloggedIn={isloggedIn} />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
