@@ -128,13 +128,14 @@ function App() {
     navigate("/sign-in", { replace: true });
   }
 
-  function handleUpdateUser(dataInput) {
+  function handleUpdateUser(dataInput, resetValidation) {
     api
       .changeProfileData(dataInput)
       .then((res) => {
         console.log(res);
         setCurrentUser(res);
         closeAllPopups();
+        resetValidation(dataInput);
       })
       .catch((err) => console.log("Error user data updates!"));
   }
@@ -149,12 +150,13 @@ function App() {
       .catch((err) => console.log("Error avatar data updates!"));
   }
 
-  function handleAddPlaceSubmit(dataCard) {
+  function handleAddPlaceSubmit(dataCard, resetValidation) {
     api
       .addNewCard(dataCard)
       .then((newCard) => {
         closeAllPopups();
         setCards([newCard, ...cards]);
+        resetValidation();
       })
       .catch((err) => console.log("Error add card!"));
   }

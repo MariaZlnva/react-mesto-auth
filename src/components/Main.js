@@ -12,13 +12,11 @@ function Main({
   onCardClick,
   onCardLike,
   onCardDelete,
-  
 }) {
   //подписываемся на контекст
   const currentUser = React.useContext(CurrentUserContext);
 
   return (
-  
     <main className="content page__content">
       <section className="profile content__profile">
         <div className="profile__info">
@@ -59,7 +57,6 @@ function Main({
         ))}
       </section>
     </main>
-  
   );
 }
 
