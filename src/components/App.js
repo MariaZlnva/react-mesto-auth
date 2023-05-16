@@ -67,7 +67,7 @@ function App() {
 
   function checkToken() {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token && !isloggedIn) {
       auth
         .getContent(token)
         .then((res) => {
