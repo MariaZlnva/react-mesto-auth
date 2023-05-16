@@ -49,10 +49,6 @@ function App() {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   checkToken();
-  // }, []);
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && !isloggedIn) {
@@ -81,22 +77,6 @@ function App() {
     }
   }, [isloggedIn]);
 
-  // function checkToken() {
-  //   const token = localStorage.getItem("token");
-  //   if (token && !isloggedIn) {
-  //     auth
-  //       .getContent(token)
-  //       .then((res) => {
-  //         if (res) {
-  //           setEmailUser(res.data.email);
-  //           setIsloggedIn(true);
-  //           navigate("/", { replace: true });
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }
-
   function handleSubmitLogin({ email, password }) {
     if (!email || !password) {
       return;
@@ -104,15 +84,15 @@ function App() {
     auth
       .authorize(email, password)
       .then((data) => {
-        if (data.token) {
-          localStorage.setItem("token", data.token);
+        // if (data.token) {
+        //   localStorage.setItem("token", "authorized");
           setIsDataInfoToolTip(confirm);
           setIsloggedIn(true);
           setEmailUser(email);
           navigate("/", { replace: true });
-        } else {
-          return;
-        }
+        // } else {
+        //   return;
+        // }
       })
       .catch((err) => {
         setIsDataInfoToolTip(notConfirm);
@@ -136,7 +116,7 @@ function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
     setEmailUser("");
     setIsloggedIn(false);
     setIsShow(true);
