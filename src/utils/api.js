@@ -1,11 +1,11 @@
-import React from "react";
 //класс лписывает запросы к серверу
+import { BASE_URL } from "./auth";
 
 class Api {
   constructor({ baseUrl, headers, idGroup }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
-    this._idGroup = idGroup;
+    // this._idGroup = idGroup;
   }
   //метод проверки ответа от сервера
   _checkResponse(res) {
@@ -16,13 +16,15 @@ class Api {
   }
 
   getInfoUserServer() {
-    return fetch(`${this._baseUrl}${this._idGroup}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   getItemsServer() {
-    return fetch(`${this._baseUrl}${this._idGroup}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'GET',
       headers: this._headers,
     }).then(this._checkResponse);
   }
@@ -32,7 +34,7 @@ class Api {
   }
 
   changeProfileData(dataInput) {
-    return fetch(`${this._baseUrl}${this._idGroup}/users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -43,7 +45,7 @@ class Api {
   }
 
   changeAvatar(dataForm) {
-    return fetch(`${this._baseUrl}${this._idGroup}/users/me/avatar`, {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       body: JSON.stringify({
         avatar: dataForm.avatar,
@@ -53,7 +55,7 @@ class Api {
   }
 
   addNewCard(dataCard) {
-    return fetch(`${this._baseUrl}${this._idGroup}/cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       body: JSON.stringify({
         name: dataCard.cardName,
@@ -65,7 +67,7 @@ class Api {
 
   deleteCard(cardId) {
     return fetch(
-      `${this._baseUrl}${this._idGroup}/cards/${cardId}`, //Вместо cardId в URL нужно подставить параметр _id карточки, которую нужно удалить. _id каждой карточки есть в её JSON:
+      `${this._baseUrl}/cards/${cardId}`, //Вместо cardId в URL нужно подставить параметр _id карточки, которую нужно удалить. _id каждой карточки есть в её JSON:
       {
         method: "DELETE",
         headers: this._headers,
@@ -74,14 +76,14 @@ class Api {
   }
 
   addLike(cardId) {
-    return fetch(`${this._baseUrl}${this._idGroup}/cards/${cardId}/likes`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   deleteLike(cardId) {
-    return fetch(`${this._baseUrl}${this._idGroup}/cards/${cardId}/likes`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
     }).then(this._checkResponse);
@@ -89,10 +91,11 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: "https://nomoreparties.co/v1/",
+  // baseUrl: "https://nomoreparties.co/v1/",
+  baseUrl: BASE_URL,
   headers: {
-    authorization: "d9d74726-0f35-4f64-a4f4-3690ec473717",
+    // authorization: "d9d74726-0f35-4f64-a4f4-3690ec473717",
     "Content-Type": "application/json",
   },
-  idGroup: "cohort-59",
+  // idGroup: "cohort-59",
 });
